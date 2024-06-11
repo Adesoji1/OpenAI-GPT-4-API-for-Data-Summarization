@@ -1,4 +1,14 @@
-To set up an automated system that fetches data from MongoDB, processes and summarizes it using the OpenAI API, and posts summaries to a Discord channel, you will need to follow several steps. Here’s a detailed plan and the necessary scripts:
+from openai import OpenAI
+
+client = OpenAI()
+
+stream = client.chat.completions.create(
+    model="gpt-4",
+    messages=[{"role": "user", "content": "Say this is a test"}],
+    stream=True,
+)
+for chunk in stream:
+    print(chunk.choices[0].delta.content or "", end="")To set up an automated system that fetches data from MongoDB, processes and summarizes it using the OpenAI API, and posts summaries to a Discord channel, you will need to follow several steps. Here’s a detailed plan and the necessary scripts:
 
 ### Steps
 
@@ -87,18 +97,19 @@ def filter_posts(posts):
 #### 5. Generate Summaries Using OpenAI API
 
 ```python
-import openai
+from openai import OpenAI
 
-openai.api_key = 'YOUR_OPENAI_API_KEY'
+client = OpenAI(api_key='YOUR_OPENAI_API_KEY')
 
 def generate_summary(post_text):
-    response = openai.Completion.create(
-        engine="davinci",
-        prompt=f"Summarize the following text: {post_text}",
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": f"Summarize the following text: {post_text}"}],
         max_tokens=50
     )
-    summary = response.choices[0].text.strip()
+    summary = response.choices[0].message['content'].strip()
     return summary
+
 ```
 
 #### 6. Store Summaries in MongoDB
