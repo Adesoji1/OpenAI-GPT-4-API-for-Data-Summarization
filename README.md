@@ -1,14 +1,4 @@
-from openai import OpenAI
-
-client = OpenAI()
-
-stream = client.chat.completions.create(
-    model="gpt-4",
-    messages=[{"role": "user", "content": "Say this is a test"}],
-    stream=True,
-)
-for chunk in stream:
-    print(chunk.choices[0].delta.content or "", end="")To set up an automated system that fetches data from MongoDB, processes and summarizes it using the OpenAI API, and posts summaries to a Discord channel, you will need to follow several steps. Here’s a detailed plan and the necessary scripts:
+To set up an automated system that fetches data from MongoDB, processes and summarizes it using the OpenAI API, and posts summaries to a Discord channel, you will need to follow several steps. Follow the detailed plan and the necessary scripts i wrote below:
 
 ### Steps
 
